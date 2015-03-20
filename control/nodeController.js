@@ -8,7 +8,15 @@ function createNode(user, nodeName){
 			console.log('User does not exist.');
 		}
 		else{
-			nodeDAO.createNode(user, nodeName);	
+			userDAO.validateUser(user.name, user.password, function(valid){
+				if (valid){
+					nodeDAO.createNode(user, nodeName);
+				}
+				else{
+					//TODO: log.
+					console.log('Authentication error.')
+				}
+			});
 		}
 	});
 }
