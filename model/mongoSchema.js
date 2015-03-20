@@ -1,30 +1,25 @@
-var mongoose = require('mongoose'),
+var mongoose = require('mongoose');
 	mongoose.connect('mongodb://localhost/zero');
 	
-/*
-	User model
-*/
-var userSchema = mongoose.Schema({
+// user 
+var user = mongoose.model('user', mongoose.Schema({
     name : String,
-    password : String
+   	password : String
+    
 
-});	
+}));
+exports.user = user;
 
-/*
-	Node model
-*/
-var  nodeSchema = mongoose.Schema({
+var node = mongoose.model('node', mongoose.Schema({
 	name : String,
     token : String
-
-});
-
-// prototipes to use
-var user = db.model('user', userSchema);
-var node = db.model('node', nodeSchema);
+}));
+exports.node = node;
 
 
 
 
 
 
+
+ 
