@@ -14,13 +14,13 @@ exports.createUser = createUser;
 
 function validateUser(name, pass, callback){
 	passw = crypto.createHash('sha256').update(pass).digest();
-	model.user.findOne({ 'name':  name , 'password' : password}, 'name password', function (err, user){
+	model.user.findOne({ 'name':  name }, 'name password', function (err, user){
 		if (err){
 			//TODO log.
 			return callback(undefined);
 		}
 		else{
-			if (password === passw) return callback(true);
+			if (user.password === passw.toString()) return callback(true);
 			else return callback(false);
 		}
 	});
