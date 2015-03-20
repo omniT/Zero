@@ -16,5 +16,4 @@ function createNode(user, nodeName){
 			node.save();
 		}
 	});
-
 }
