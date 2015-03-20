@@ -1,13 +1,11 @@
-var model = require('../model/mongoSchema');
-var crypto = require('crypto');
-var sha = crypto.createHash('sha256');
+var userDAO = require('../dao/userDAO');
 
-function createUser(name, pass) {	
-	sha.update(pass);
-	var user = new model.user();
-	user.name = name
-	user.password = sha.digest();
-	
+
+function createUser(user, password){
+	userDAO.searchByName(user, function(callback){
+		if(callback === null)
+			userDAO.createUser(user, password);		
+	});
 }
 
-createUser('pepe', '12345');
+
