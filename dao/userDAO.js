@@ -1,4 +1,4 @@
-var model = require('../model/mongoSchema');
+var model  = require('../model/mongoSchema');
 var crypto = require('crypto');
 
 /*
@@ -12,6 +12,9 @@ function createUser(name, pass) {
 }
 exports.createUser = createUser;
 
+/*
+	Function to validate an user.
+*/	 
 function validateUser(name, pass, callback){
 	passw = crypto.createHash('sha256').update(pass).digest();
 	model.user.findOne({ 'name':  name }, 'name password', function (err, user){
@@ -26,6 +29,7 @@ function validateUser(name, pass, callback){
 	});
 }
 exports.validateUser = validateUser;
+
 /*
 	Function to find an user with their name
 */
