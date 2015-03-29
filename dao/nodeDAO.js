@@ -1,6 +1,5 @@
 var model  = require('../model/mongoSchema');
 var crypto = require('crypto');
-var logger = require('../utils/logger').logger;
 
 /*
 	Function to create a new node
