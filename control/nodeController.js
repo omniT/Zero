@@ -10,8 +10,14 @@ function createNode(user, nodeName){
 		else{
 			userDAO.validateUser(user.name, user.password, function(valid){
 				if (valid){
-					nodeDAO.createNode(user, nodeName);
-					logger.log('info', 'New node ' + nodeName + ' has been created with user ' + user.name);
+					nodeDAO.createNode(user, nodeName, function(err){
+						if(err){
+							logger.log('error', "Could not create node " + nodeName + " with user " + user.name);
+						}
+						else{
+							logger.log('info', 'New node ' + nodeName + ' has been created with user ' + user.name);
+						}
+					});
 				}
 				else{
 					logger.log('error', 'Authentication error creating node ' + nodeName + ' with user ' + user.name);

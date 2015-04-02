@@ -4,11 +4,11 @@ var crypto = require('crypto');
 /*
 	Function to create a new user
 */
-function createUser(name, pass) {	
+function createUser(name, pass, callback) {	
 	var user = new model.user();
 	user.password = crypto.createHash('sha256').update(pass).digest();
 	user.name = name;
-	user.save();	
+	user.save(callback);	
 }
 exports.createUser = createUser;
 
@@ -19,7 +19,6 @@ function validateUser(name, pass, callback){
 	passw = crypto.createHash('sha256').update(pass).digest();
 	model.user.findOne({ 'name':  name }, 'name password', function (err, user){
 		if (err){
-			//TODO log.
 			return callback(undefined);
 		}
 		else{
@@ -35,13 +34,12 @@ exports.validateUser = validateUser;
 */
 function searchByName(name, callback){ 			
 	model.user.findOne({ 'name':  name }, 'name password', function (err, user) {	  	
-	  	if (err)
-	  		//TODO log.
+	  	if (err){
 	   		return callback(undefined);
-	  	else
-	  		//console.log(user);
+	  	}
+	  	else{
   			return callback(user);
-	  		
+	  	}
 	});
 }	
 exports.searchByName = searchByName;
