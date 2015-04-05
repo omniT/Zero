@@ -16,6 +16,7 @@ var winston = require('winston');                       //Import winston log lib
 var logger = new winston.Logger({
     transports: [
         new winston.transports.File({
+            name: 'info-file',
             level: 'info',
             filename: properties.log.info,      //<-- defined since properties file.
             handleExceptions: true,
@@ -26,8 +27,9 @@ var logger = new winston.Logger({
         }),
         //Warning debug option:
         new winston.transports.File({
-            level: 'warning',
-            filename: properties.log.warning,   //<-- defined since properties file.   
+            name: 'warning-file',
+            level: 'warn',
+            filename: properties.log.warn,   //<-- defined since properties file.   
             handleExceptions: true,
             json: true,
             maxsize: 3145728,
@@ -36,6 +38,7 @@ var logger = new winston.Logger({
         }),
         //error debug option:
         new winston.transports.File({
+            name: 'error-file',
             level: 'error',
             filename: properties.log.error,     //<-- defined since properties file.
             handleExceptions: true,
@@ -46,6 +49,7 @@ var logger = new winston.Logger({
         }),
         //console debug option: 
         new winston.transports.Console({
+            name:'debug',
             level: 'debug',
             handleExceptions: true,
             json: false,
@@ -54,10 +58,13 @@ var logger = new winston.Logger({
     ],
     exitOnError: false                          //Keep ussing winston if it launch an exception
 });
-module.exports = logger;
+exports.logger = logger;
 
+//Unsused yet.
+/*
 module.exports.stream = {
     write: function(message, encoding){
         logger.info(message);
     }
 };
+*/

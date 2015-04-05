@@ -13,7 +13,7 @@ module.exports.properties  = {
 	//Different log files:
 	log : {
 		info : '/var/log/zero/info.log',
-		warning : '/var/log/zero/warning.log',
+		warn : '/var/log/zero/warning.log',
 		error : '/var/log/zero/error.log',
 	}
 }
