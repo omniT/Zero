@@ -11,7 +11,7 @@ function createUser(user, password){
 				else{
 					logger.log('info', "New user: " + user.name + " has been created");
 				}
-			});h
+			});
 		}
 		else{
 			logger.log('warn', 'User ' + user.name + ' already exists');
