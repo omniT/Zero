@@ -1,5 +1,5 @@
 var userDAO = require('../dao/userDAO');
-var logger = require('../utils/logger').logger;
+var logger = require('../utils/logger/logger').logger;
 
 function createUser(user, password){
 	userDAO.searchByName(user, function(callback){

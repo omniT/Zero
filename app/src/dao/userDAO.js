@@ -1,4 +1,4 @@
-var model  = require('../model/mongoSchema');
+var model  = require('../model/user');
 var crypto = require('crypto');
 
 /*

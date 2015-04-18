@@ -1,6 +1,6 @@
-var nodeDAO = require('../dao/nodeDAO');
+var sigmaDAO = require('../dao/sigmaDAO');
 var userDAO = require('../dao/userDAO');
-var logger = require('../utils/logger').logger;
+var logger = require('../utils/logger/logger').logger;
 
 function createNode(user, nodeName){
 	userDAO.searchByName(user.name, function(result){
@@ -10,7 +10,7 @@ function createNode(user, nodeName){
 		else{
 			userDAO.validateUser(user.name, user.password, function(valid){
 				if (valid){
-					nodeDAO.createNode(user, nodeName, function(err){
+					sigmaDAO.createNode(user, nodeName, function(err){
 						if(err){
 							logger.log('error', "Could not create node " + nodeName + " with user " + user.name);
 						}
