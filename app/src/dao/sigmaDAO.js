@@ -1,18 +1,23 @@
 var model  = require('../model/sigma');
 var crypto = require('crypto');
-
-//Where to store the kay is still a mistery
-var key = 'good private key we need to make';
+var tokenKeyFile = require('../../../properties').properties.tokenKeyFile;
+var fs = require('fs');
 
 /*
 	Function to create a new sigma
 */
-function createSigma(user, nodeName, callback){
+function createSigma(user, sigmaName, callback){
+	try{
+		var key = fs.readFileSync(tokenKeyFile);
+	}
+	catch(err){
+		return callback(err);
+	}
 	var userData = '' + user.name + user.password + new Date().getTime();
-	console.log(userData);
-	token = crypto.createHmac('sha256', key).update(userData).digest('hex');
+	var token = crypto.createHmac('sha256', key).update(userData + sigmaName).digest('hex');
+	key = '000000000000000000000000000000';
 	var sigma = new model.sigma();
-	sigma.name = nodeName;
+	sigma.name = sigmaName;
 	sigma.token = token;
 	sigma.save(callback);
 }

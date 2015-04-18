@@ -6,6 +6,7 @@
 			-info.
 			-warming.
 			-Error.
+		-Private key file
 */
 module.exports.properties  = {
 	//Database route:
@@ -16,4 +17,6 @@ module.exports.properties  = {
 		warn : '/var/log/zero/warning.log',
 		error : '/var/log/zero/error.log',
 	}
+	//Key to generate tokens
+	tokenKeyFile : '.token_genkey.key'
 }
