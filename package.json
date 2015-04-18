@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/omniT/zero/issues"
   },
-  "homepage": "https://github.com/omniT/zero"
+  "homepage": "https://github.com/omniT/zero",
+  "dependencies": {
+    "express": "^4.12.3"
+  }
 }
