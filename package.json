@@ -18,5 +18,9 @@
   "homepage": "https://github.com/omniT/zero",
   "dependencies": {
     "express": "^4.12.3"
+  },
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "mocha": "^2.2.4"
   }
 }
