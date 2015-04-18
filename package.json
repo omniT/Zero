@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/omniT/zero",
   "dependencies": {
-    "express": "^4.12.3"
+    "express": "^4.12.3",
+    "mongoose": "^4.0.1"
   },
   "devDependencies": {
     "chai": "^2.2.0",
