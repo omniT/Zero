@@ -9,6 +9,8 @@
 		-Private key file
 */
 module.exports.properties  = {
+	//Absolute application path
+	path : __dirname,
 	//Database route:
 	databaseURI : 'mongodb://localhost/zero',
 	//Different log files:
