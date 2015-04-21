@@ -24,7 +24,6 @@
     "chai": "^2.2.0",
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "^0.11.2",
-    "grunt-shell": "^1.1.2",  //github.com/sindresorhus/grunt-shell
     "mocha": "^2.2.4"
   }
 }
