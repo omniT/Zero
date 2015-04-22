@@ -1,5 +1,7 @@
-var model  = require('../model/user');
-var crypto = require('crypto');
+var properties = require('properties').properties;				//Import properties file
+var crypto = require('crypto');									//Import libraries to crypt all the data /* https://nodejs.org/api/crypto.html */	
+var model  = require(properties.path + 'app/src/models/user');	//Import User model.
+
 
 /*
 	Function to create a new user
