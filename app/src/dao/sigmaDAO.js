@@ -1,7 +1,9 @@
-var model  = require('../model/sigma');
-var crypto = require('crypto');
-var tokenKeyFile = require('../../../properties').properties.tokenKeyFile;
-var fs = require('fs');
+var properties  = require('properties').properties;				//Import properties file
+var fs     = require('fs');											//Import File system IO libraries.
+var crypto = require('crypto');									//Import libraries to crypt all the data /* https://nodejs.org/api/crypto.html */	
+var model  = require(properties.path + 'app/src/model/sigma');	//Import sigma model
+var tokenKeyFile = properties.tokenKeyFile;						//Import tokenFIle since properties file							
+							
 
 /*
 	Function to create a new sigma

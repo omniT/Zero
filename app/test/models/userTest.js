@@ -2,8 +2,9 @@
 	Script to test user.js values.
 */	
 
-var user = require('/app/src/models/user');
-var expect = require('chai').expect;	//library to assert
+var properties = require('properties').properties;
+var user 	   = require(properties.path + 'app/src/models/user');
+var expect     = require('chai').expect;	//library to assert
 
 //All model tests instanciated under this suite:
 suite('user model test', function(){
