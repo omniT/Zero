@@ -4,7 +4,7 @@
 */	
 
 var properties = require('properties').properties;	//Import properties file, and choose properties object
-var mongoose = require('mongoose');						//Import mongoose library {http://mongoosejs.com}
+var mongoose   = require('mongoose');						//Import mongoose library {http://mongoosejs.com}
 	mongoose.connect(properties.databaseURI);			//connect mongoose instance to app database
 	
 /*

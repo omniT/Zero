@@ -1,5 +1,6 @@
-var userDAO = require('../dao/userDAO');
-var logger = require('../utils/logger/logger').logger;
+var properties = require('properties').properties;							//Import properties file
+var userDAO    = require(properties.path + 'app/src/dao/userDAO');			//Import userDAO funcionality
+var logger     = require(properties.path + 'utils/logger/logger').logger;	//Import logging library 
 
 function createUser(user, password){
 	userDAO.searchByName(user, function(callback){
