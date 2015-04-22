@@ -10,7 +10,7 @@
 */
 module.exports.properties  = {
 	//Absolute application path
-	path : __dirname,
+	path : __dirname + '/',
 	//Database route:
 	databaseURI : 'mongodb://localhost/zero',
 	//Different log files:
@@ -20,5 +20,10 @@ module.exports.properties  = {
 		error : '/var/log/zero/error.log',
 	}
 	//Key to generate tokens
-	tokenKeyFile : '.token_genkey.key'
-}
+	//TO-DO: 
+		/*	
+			Grunt task to create this file path
+			Grunt task to generate the token
+		*/	
+	//tokenKeyFile : '.token_genkey.key'
+};
