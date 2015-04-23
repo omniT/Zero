@@ -2,7 +2,7 @@
     File to define how this app works with logs:
 */    
 
-var properties = require('../properties').properties;   //Import properties file, and choose properties object
+var properties = require('properties').properties;   //Import properties file, and choose properties object
 var winston = require('winston');                       //Import winston log library {https://github.com/winstonjs/winston}
     winston.emitErrs = true;                            //
 
