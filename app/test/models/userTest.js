@@ -15,7 +15,7 @@ suite('user model test', function(){
 		user.setName('foo');
 		user.setPassword('fooSecret');
 		assert.equal(user.getName(), 'foo', 'User name must be foo');
-		assert.equal(user.getPassword(), 'fooSecret', 'User name must be fooSecre');
+		assert.equal(user.getPassword(), 'fooSecret', 'User password must be fooSecre');
 	});
 
 });

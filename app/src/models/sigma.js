@@ -14,10 +14,26 @@ var mongoose   = require('mongoose');						//Import mongoose library {http://mon
 		-name basic UTF8 String
 		-token : it´screated by: username + userpassword + timestamp
 */	
-var sigma = mongoose.model('sigma', mongoose.Schema({
-	name : String,
-    token : String
-}));
+function sigma(){
+	name : String;
+    token : String;
+
+    this.setName = function(sigmaName){
+    	name = sigmaName;
+    }
+
+    this.setToken = function(sigmaToken){
+    	token = sigmaToken;
+    }
+
+    this.getName = function(){
+    	return name;
+    }
+
+    this.getToken = function(){
+    	return token;
+    }
+} 
 exports.sigma = sigma;
 
 

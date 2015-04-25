@@ -1,6 +1,5 @@
 /*
-	File to define user app objects using mongoose library to implement 
-	ODM pattern in the application.
+	User app model
 */	
 
 var properties  = require('properties').properties;	//Import properties file, and choose properties object
