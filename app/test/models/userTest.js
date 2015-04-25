@@ -3,16 +3,19 @@
 */	
 
 var properties = require('properties').properties;
-var user 	   = require(properties.path + 'app/src/models/user');
-var expect     = require('chai').expect;	//library to assert
+var userModel  = require(properties.path + 'app/src/models/user');
+var assert     = require('chai').assert;	//library to assert
 
 //All model tests instanciated under this suite:
 suite('user model test', function(){
+	var user = new userModel.user();
 
 	//test to test if user object has all the properties:
 	test('user properties test', function(){	
-		expect(typeof user.name === 'string');
-
+		user.setName('foo');
+		user.setPassword('fooSecret');
+		assert.equal(user.getName(), 'foo', 'User name must be foo');
+		assert.equal(user.getPassword(), 'fooSecret', 'User name must be fooSecre');
 	});
 
 });
