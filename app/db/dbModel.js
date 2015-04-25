@@ -13,12 +13,12 @@ var mongoose   = require('mongoose');					//Import mongoose library {http://mong
 		-name: basic UTF8 string
 		-Password: It´s saved as a sha256 format.
 */	
-var userCollection = mongoose.model('user', mongoose.Schema({
-    this.name     : String,
-   	this.password : String,
+var user = mongoose.model('user', mongoose.Schema({
+    name     : String,
+   	password : String,
     
 }));
-exports.userCollection = userCollection;
+exports.user = user;
 
 /*
 	Node model.

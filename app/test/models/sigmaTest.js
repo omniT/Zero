@@ -3,7 +3,7 @@
 */	
 
 var properties = require('properties').properties;
-var sigmaModel  = require(properties.path + 'app/src/models/sigma');
+var sigmaModel = require(properties.path + 'app/src/models/sigma');
 var assert     = require('chai').assert;	//library to assert
 
 //All model tests instanciated under this suite:

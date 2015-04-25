@@ -1,6 +1,17 @@
 var properties = require('properties').properties;				//Import properties file
-var crypto = require('crypto');									//Import libraries to crypt all the data /* https://nodejs.org/api/crypto.html */	
-var model  = require(properties.path + 'app/src/models/user');	//Import User model.
+var crypto  = require('crypto');									//Import libraries to crypt all the data /* https://nodejs.org/api/crypto.html */	
+var bucket  = require(properties.path + 'app/db/dbModel');	    //Import User model.
+
+/*
+	Function to wraper user to bd model:
+*/	
+function userWrapper(user, callback){
+	var userBucket  = new bucket.user();
+	userBucket.name = user.getName();
+	userBucket.password = user.getPassword();
+	callback(userBucket);
+}
+exports.userWrapper = userWrapper;
 
 
 /*
@@ -11,7 +22,7 @@ function createUser(name, pass, callback) {
 	user.password = crypto.createHash('sha256').update(pass).digest();
 	user.name = name;
 	user.save(callback);	
-}
+}	
 exports.createUser = createUser;
 
 /*
@@ -45,5 +56,3 @@ function searchByName(name, callback){
 	});
 }	
 exports.searchByName = searchByName;
-
-function ()
