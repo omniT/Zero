@@ -6,20 +6,11 @@ var sigmaDAO   = require(properties.path + 'app/src/dao/sigmaDAO');
 var sigmaModel = require(properties.path + 'app/src/models/sigma'); 
 var bucket     = require(properties.path + 'app/db/dbModel');
 var assert     = require('chai').assert;	//library to assert
-var mongoose  = require('mongoose');					//Import mongoose library {http://mongoosejs.com}
+var mongoose   = require('mongoose');					//Import mongoose library {http://mongoosejs.com}
 
 
 //All model tests instanciated under this suite:
 suite('sigmaDAO test', function(){
-	
-	/*
-		Open database Connection.
-	*/	
-	before(function(done) {
-        if (mongoose.connection.db) return done();
-    	mongoose.connect(properties.databaseURI, done);
-  	});
-	
 	/*
 		test sigmaDbWrapper function:
 	*/	
@@ -55,13 +46,4 @@ suite('sigmaDAO test', function(){
 			assert.equal(sigma.getToken(), 'secretFoo', 'sigma must have the name foo');
 		});
 	});
-
-	/*
-		Close database connection
-	*/	
-	after(function(done){
-		mongoose.connection.close(function(){
-  			done();
-		});
-  	});	
 });	

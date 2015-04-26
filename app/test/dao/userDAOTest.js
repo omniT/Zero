@@ -13,15 +13,6 @@ var mongoose   = require('mongoose');		//Import mongoose library {http://mongoos
 suite('userDAO test', function(){
 	
 	/*
-		Open database Connection.
-	*/	
-	before(function(done) {
-        if (mongoose.connection.db) return done();
-    	mongoose.connect(properties.databaseURI, done);
-  	});
-	
-
-	/*
 		test userDbWrapper function:
 	*/	
 	test('userDbWrapper function  test', function(){		
@@ -84,9 +75,4 @@ suite('userDAO test', function(){
 	/*
 		Close database connection
 	*/	
-	after(function(done){
-		mongoose.connection.close(function(){
-  			done();
-		});
-  	});
 });
