@@ -1,9 +1,34 @@
 var properties  = require('properties').properties;				//Import properties file
+var sigmaModel  = require(properties.path + 'app/src/models/sigma');	//Import sigma model
+var bucket = require(properties.path + 'app/db/dbModel');
 var fs     = require('fs');											//Import File system IO libraries.
 var crypto = require('crypto');									//Import libraries to crypt all the data /* https://nodejs.org/api/crypto.html */	
-var model  = require(properties.path + 'app/src/model/sigma');	//Import sigma model
 var tokenKeyFile = properties.tokenKeyFile;						//Import tokenFIle since properties file							
-							
+
+/*
+	Function wraper user to create a bd since model:
+*/	
+function sigmaDbWrapper(sigma, callback){
+	var sigmaBucket  = new bucket.sigma();
+	sigmaBucket.name = sigma.getName();
+	sigmaBucket.token = sigma.getToken();
+	callback(sigmaBucket);
+}
+exports.sigmaDbWrapper = sigmaDbWrapper;
+
+/*
+	Function  wrapper user model since db:
+*/	
+function sigmaModelWrapper(sigmaBucket, callback){
+	var sigma  = new sigmaModel.sigma();
+	sigma.setName(sigmaBucket.name);
+	sigma.setToken(sigmaBucket.token);
+	callback(sigma);
+}
+exports.sigmaModelWrapper = sigmaModelWrapper;
+
+
+
 
 /*
 	Function to create a new sigma
