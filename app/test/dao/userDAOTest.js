@@ -7,7 +7,8 @@ var userModel  = require(properties.path + 'app/src/models/user');
 var bucket     = require(properties.path + 'app/db/dbModel');
 var assert     = require('chai').assert;	//library to assert
 var mongoose   = require('mongoose');		//Import mongoose library {http://mongoosejs.com}
-
+var before     = require('mocha').before; 	//before to implement actions before test execution. 
+var after      = require('mocha').after;    //after to implement actions after test execution. 
 
 //All model tests instanciated under this suite:
 suite('userDAO test', function(){
@@ -48,31 +49,139 @@ suite('userDAO test', function(){
 		});
 	});
 
-
 	/*
-		test 
-
-
+		test userDao prototupe properties:
+	*/	
+	test('userDao prototype properties test', function(){		
+			var userDao = new userDAO.userDao();			//userBucket needed to test
+			//All the requrired properties to userDao prototype:
+			assert.property(userDao, 'createUser', 'object must have createUser property');
+			assert.property(userDao, 'updateUser', 'object must have updateUser property');
+			assert.property(userDao, 'deleteUser', 'object must have deleteUser property');
+			assert.property(userDao, 'validateUser', 'object must have validateUser property');
+			assert.property(userDao, 'searchByName', 'object must have searchUserByName property');
+			assert.property(userDao, 'searchById', 'object must have searchUserById property');			
+	});
 
 	/*
 		test Createuser:
+	*/
+	test('userDao createUser test', function(){		
+		//Connect to database:
+		before(function(done){
+			if (mongoose.connection.db) return done();
+			mongoose.connect(properties.databaseURI, done);
+		});			
 	
-	test('createUser test', function(){
-		var user = new userModel.user();		//user needed to test
+		var userDao = new userDAO.userDao();
+		var user    = new userModel.user();
 			user.setName('foo');
 			user.setPassword('secretFoo');
-		
-		var userDao = new userDAO.userDao();		//userDAO needed to test
-		
-		userDao.searchByName('userTest',function(user){
-			if(user !=== null) userDao.dropByName(user.)
+
+		userDao.searchByName(user.name, function(user){
+			if(user === null)	userDao.createUser(user, function(status){
+									userDao.searchByName(user.name, function(userFind){
+										assert.equal(userFind.getName(), user.getName(), 'user must have the name foo');				
+										assert.equal(userFind.getPassword(), user.getName(), 'user must have the name foo');								
+									});									
+								});
+			else userDao.deleteUser(user, function(status){
+					userDao.createUser(user, function(status){
+						userDao.searchByName(user.name, function(userFind){
+							assert.equal(userFind.getName(), user.getName(), 'user must have the name foo');				
+							assert.equal(userFind.getPassword(), user.getName(), 'user must have the name foo');								
+						});									
+					});
+				}); 	
 		});
 
+		//Disconnect to database:
+		after(function(){
+			mongoose.connection.close(function(){
++  				done();
+			})
 
+		});
 	});
-	*/
 
 	/*
-		Close database connection
-	*/	
-});
+		test DeleteUser:
+	*/
+	test('userDao deleteUser test', function(){		
+		//Connect to database:
+		before(function(done){
+			if (mongoose.connection.db) return done();
+			mongoose.connect(properties.databaseURI, done);
+		});			
+	
+		var userDao = new userDAO.userDao();
+		var user    = new userModel.user();
+			user.setName('foo');
+			user.setPassword('secretFoo');
+
+		userDao.searchByName(user.name, function(user){	
+			if(user === null)	userDao.createUser(user, function(status){
+									userDao.deleteUser(user, function(status){
+										userDAO.searchByName(user, function(status){
+											assert.equal(status, null, 'user must not exists');
+										});
+									})									
+								});
+			else userDao.deleteUser(user, function(status){
+						userDao.searchByName(user.name, function(status){
+							assert.equal(status, null, 'user must not exists');									
+						});									
+				});
+		});
+			
+		//Disconnect to database:
+		after(function(){
+			mongoose.connection.close(function(){
++  				done();
+			})
+
+		});
+	});
+
+	/*
+		test searchByName:
+	*/
+	test('userDao searchByName test', function(){		
+		//Connect to database:
+		before(function(done){
+			if (mongoose.connection.db) return done();
+			mongoose.connect(properties.databaseURI, done);
+		});			
+	
+		var userDao = new userDAO.userDao();
+		var user    = new userModel.user();
+			user.setName('foo');
+			user.setPassword('secretFoo');
+
+		userDao.searchByName(user.name, function(user){	
+			if(user === null)	userDao.createUser(user, function(status){
+										userDAO.searchByName(user, function(userFind){
+											assert.equal(userFind.getName(), user.getName(), 'user must have this name');
+											assert.equal(userFind.getPassword(), user.getName(), 'user must have the name foo');
+										});									
+								});
+			else userDao.deleteUser(user, function(status){
+					userDao.createUser(user, function(status){
+						userDao.searchByName(user.name, function(userFind){
+							assert.equal(userFind.getName(), user.getName(), 'user must have the name foo');				
+							assert.equal(userFind.getPassword(), user.getName(), 'user must have the name foo');								
+						});									
+					});
+				});
+		});	
+		
+			
+		//Disconnect to database:
+		after(function(){
+			mongoose.connection.close(function(){
++  				done();
+			})
+
+		});
+	});
+});	
