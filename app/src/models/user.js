@@ -1,21 +1,27 @@
 /*
-	File to define user app objects using mongoose library to implement 
-	ODM pattern in the application.
+	User app model
 */	
 
-var properties = require('properties').properties;	//Import properties file, and choose properties object
-var mongoose   = require('mongoose');						//Import mongoose library {http://mongoosejs.com}
-	mongoose.connect(properties.databaseURI);			//connect mongoose instance to app database
-	
-/*
-	User Model. 
-	properties:
-		-name: basic UTF8 string
-		-Password: It´s saved as a sha256 format.
-*/	
-var user = mongoose.model('user', mongoose.Schema({
-    name : String,
-   	password : String
-    
-}));
-exports.user = user;
+var properties  = require('properties').properties;	//Import properties file, and choose properties object
+var mongoose    = require('mongoose');
+var dbSchema    = require(properties.path + 'app/db/dbSchema')
+
+var User = mongoose.model('user', dbSchema.userSchema);
+
+	User.prototype.setName = function(userName){
+		this.name = userName;
+	};	      
+
+	User.prototype.setPassword = function(userPassword){
+		this.password = userPassword;
+	};
+
+	User.prototype.getName = function(){
+		return this.name;
+	};
+
+	User.prototype.getPassword = function(){
+		return this.password;
+	}
+
+exports.User = User;
