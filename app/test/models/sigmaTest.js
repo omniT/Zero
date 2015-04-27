@@ -8,7 +8,7 @@ var assert     = require('chai').assert;	//library to assert
 
 //All model tests instanciated under this suite:
 suite('sigma model test', function(){
-	var sigma = new sigmaModel.sigma();
+	var sigma = new sigmaModel.Sigma();
 
 	//test to test if sigma object has all the properties:
 	test('sigma properties test', function(){	

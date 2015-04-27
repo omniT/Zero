@@ -3,25 +3,25 @@
 */	
 
 var properties  = require('properties').properties;	//Import properties file, and choose properties object
+var mongoose    = require('mongoose');
+var dbSchema    = require(properties.path + 'app/db/dbSchema')
 
-function user(){
-    name :  String;
-    password : String;
+var User = mongoose.model('user', dbSchema.userSchema);
 
-	this.setName = function(userName){
-		name = userName;
+	User.prototype.setName = function(userName){
+		this.name = userName;
+	};	      
+
+	User.prototype.setPassword = function(userPassword){
+		this.password = userPassword;
+	};
+
+	User.prototype.getName = function(){
+		return this.name;
+	};
+
+	User.prototype.getPassword = function(){
+		return this.password;
 	}
 
-	this.setPassword = function(userPassword){
-		password = userPassword;
-	}
-
-	this.getName = function(){
-		return name;
-	}
-
-	this.getPassword = function(){
-		return password
-	}  
-}
-module.exports.user = user;
+exports.User = User;

@@ -3,10 +3,9 @@
 	ODM pattern in the application.
 */	
 
-var properties = require('properties').properties;		//Import properties file, and choose properties object
-var mongoose   = require('mongoose');						//Import mongoose library {http://mongoosejs.com}
-	mongoose.connect(properties.databaseURI);			//connect mongoose instance to app database
-	
+var properties  = require('properties').properties; //Import properties file, and choose properties object
+var mongoose    = require('mongoose');              //Import mongoose library {http://mongoosejs.com}
+var dbSchema    = require(properties.path + 'app/db/dbSchema');						
 
 /*
 	Node model.
@@ -14,26 +13,24 @@ var mongoose   = require('mongoose');						//Import mongoose library {http://mon
 		-name basic UTF8 String
 		-token : it´screated by: username + userpassword + timestamp
 */	
-function sigma(){
-	name : String;
-    token : String;
+var Sigma = mongoose.model('sigma', dbSchema.sigmaSchema);
 
-    this.setName = function(sigmaName){
-    	name = sigmaName;
-    }
+    Sigma.prototype.setName = function(sigmaName){
+        this.name = sigmaName;
+    };
 
-    this.setToken = function(sigmaToken){
-    	token = sigmaToken;
-    }
+    Sigma.prototype.setToken = function(sigmaToken){
+        this.token = sigmaToken;
+    };
 
-    this.getName = function(){
-    	return name;
-    }
+    Sigma.prototype.getName = function(){
+    	return this.name;
+    };
 
-    this.getToken = function(){
-    	return token;
-    }
-} 
-exports.sigma = sigma;
+    Sigma.prototype.getToken = function(){
+    	return this.token;
+    };
+
+exports.Sigma = Sigma;
 
 

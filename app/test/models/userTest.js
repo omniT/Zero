@@ -8,7 +8,7 @@ var assert     = require('chai').assert;	//library to assert
 
 //All model tests instanciated under this suite:
 suite('user model test', function(){
-	var user = new userModel.user();
+	var user = new userModel.User();
 
 	//test to test if user object has all the properties:
 	test('user properties test', function(){	

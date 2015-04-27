@@ -1,29 +1,7 @@
 var properties = require('properties').properties;				   //Import properties file
 var userModel  = require(properties.path + 'app/src/models/user')	
-var bucket  = require(properties.path + 'app/db/dbModel');	       //Import User model.
+var bucket  = require(properties.path + 'app/db/dbSchema');	       //Import User model.
 var crypto  = require('crypto');								   //Import libraries to crypt all the data /* https://nodejs.org/api/crypto.html */	
-
-/*
-	Function wraper user to create a bd since model:
-*/	
-function userDbWrapper(user, callback){
-	var userBucket  = new bucket.user();
-	userBucket.name = user.getName();
-	userBucket.password = user.getPassword();
-	callback(userBucket);
-}
-exports.userDbWrapper = userDbWrapper;
-
-/*
-	Function  wrapper user model since db:
-*/	
-function userModelWrapper(userBucket, callback){
-	var user  = new userModel.user();
-	user.setName(userBucket.name);
-	user.setPassword(userBucket.password);
-	callback(user);
-}
-exports.userModelWrapper = userModelWrapper;
 
 
 /*

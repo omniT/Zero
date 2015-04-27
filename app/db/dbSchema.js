@@ -11,12 +11,12 @@ var mongoose  = require('mongoose');					//Import mongoose library {http://mongo
 		-name: basic UTF8 string
 		-Password: It´s saved as a sha256 format.
 */	
-var user  = mongoose.model('user', mongoose.Schema({
+var userSchema  = new mongoose.Schema({
     name     : String,
    	password : String,
     
-}));
-exports.user = user;
+});
+exports.userSchema = userSchema;
 
 /*
 	Node model.
@@ -24,8 +24,8 @@ exports.user = user;
 		-name basic UTF8 String
 		-token : it´screated by: username + userpassword + timestamp
 */	
-var sigma = mongoose.model('sigma', mongoose.Schema({
+var sigmaSchema = new mongoose.Schema({
 	name : String,
     token : String
-}));
-exports.sigma = sigma;
+});
+exports.sigmaSchema = sigmaSchema;
