@@ -16,6 +16,10 @@ var User = mongoose.model('user', dbSchema.userSchema);
 		this.password = userPassword;
 	};
 
+	User.prototype.getId = function(){
+		return this._id;
+	}
+
 	User.prototype.getName = function(){
 		return this.name;
 	};

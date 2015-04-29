@@ -3,12 +3,12 @@
 */	
 
 var properties = require('properties').properties;
-var userModel  = require(properties.path + 'app/src/models/user');
+var userModel  = require(properties.path + 'app/src/models/user').User;
 var assert     = require('chai').assert;	//library to assert
 
 //All model tests instanciated under this suite:
 suite('user model test', function(){
-	var user = new userModel.User();
+	var user = new userModel();
 
 	//test to test if user object has all the properties:
 	test('user properties test', function(){	
@@ -16,6 +16,6 @@ suite('user model test', function(){
 		user.setPassword('fooSecret');
 		assert.equal(user.getName(), 'foo', 'User name must be foo');
 		assert.equal(user.getPassword(), 'fooSecret', 'User password must be fooSecre');
+		assert.property(user, 'getId', 'this prototype must have get Id property');
 	});
-
 });

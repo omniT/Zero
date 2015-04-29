@@ -23,6 +23,10 @@ var Sigma = mongoose.model('sigma', dbSchema.sigmaSchema);
         this.token = sigmaToken;
     };
 
+    Sigma.prototype.getId = function(){
+        return this._id;
+    };
+
     Sigma.prototype.getName = function(){
     	return this.name;
     };

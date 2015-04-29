@@ -1,10 +1,9 @@
 /*
 	Script to test userDAO.js values.
 */	
-var properties = require('properties').properties;
-var userDAO    = require(properties.path + 'app/src/dao/userDAO');
-var userModel  = require(properties.path + 'app/src/models/user'); 
-var bucket     = require(properties.path + 'app/db/dbSchema');
+var properties    = require('properties').properties;
+var UserDaoModel  = require(properties.path + 'app/src/dao/userDAO').UserDao;
+var UserModel  = require(properties.path + 'app/src/models/user').User; 
 var assert     = require('chai').assert;	//library to assert
 var mongoose   = require('mongoose');		//Import mongoose library {http://mongoosejs.com}
 var before     = require('mocha').before; 	//before to implement actions before test execution. 
@@ -13,139 +12,122 @@ var after      = require('mocha').after;    //after to implement actions after t
 //All model tests instanciated under this suite:
 suite('userDAO test', function(){
 
+	//Connect to database if other connection does't exist:
+		before(function(done) {
+        	if (mongoose.connection.db) return done();
+    		mongoose.connect(properties.databaseURI, done);
+  		});
+
 	/*
 		test userDao prototupe properties:
 	*/	
 	test('userDao prototype properties test', function(){		
-			var userDao = new userDAO.userDao();			//userBucket needed to test
+			var userDao = new UserDaoModel();			//userBucket needed to test
 			//All the requrired properties to userDao prototype:
-			assert.property(userDao, 'createUser', 'object must have createUser property');
-			assert.property(userDao, 'updateUser', 'object must have updateUser property');
-			assert.property(userDao, 'deleteUser', 'object must have deleteUser property');
-			assert.property(userDao, 'validateUser', 'object must have validateUser property');
-			assert.property(userDao, 'searchByName', 'object must have searchUserByName property');
-			assert.property(userDao, 'searchById', 'object must have searchUserById property');			
+			assert.property(userDao, 'create', 'object must have createUser property');
+			assert.property(userDao, 'update', 'object must have updateUser property');
+			assert.property(userDao, 'delete', 'object must have deleteUser property');
+			assert.property(userDao, 'findByName', 'object must have searchByName property');
+			assert.property(userDao, 'findById', 'object must have searchUserById property');
+			assert.property(userDao, 'validateUser', 'object must have validateUser property');			
 	});
 
-	/*
-		test Createuser:
-	*/
-	test('userDao createUser test', function(){		
-		//Connect to database:
-		before(function(done){
-			if (mongoose.connection.db) return done();
-			mongoose.connect(properties.databaseURI, done);
-		});			
-	
-		var userDao = new userDAO.userDao();
-		var user    = new userModel.user();
-			user.setName('foo');
-			user.setPassword('secretFoo');
 
-		userDao.searchByName(user.name, function(user){
-			if(user === null)	userDao.createUser(user, function(status){
-									userDao.searchByName(user.name, function(userFind){
-										assert.equal(userFind.getName(), user.getName(), 'user must have the name foo');				
-										assert.equal(userFind.getPassword(), user.getName(), 'user must have the name foo');								
-									});									
-								});
-			else userDao.deleteUser(user, function(status){
-					userDao.createUser(user, function(status){
-						userDao.searchByName(user.name, function(userFind){
-							assert.equal(userFind.getName(), user.getName(), 'user must have the name foo');				
-							assert.equal(userFind.getPassword(), user.getName(), 'user must have the name foo');								
-						});									
-					});
-				}); 	
-		});
+	//test create from userDAO:
+	test('create user test', function(done){	
 
-		//Disconnect to database:
-		after(function(){
-			mongoose.connection.close(function(){
-+  				done();
-			})
+		var userDao = new UserDaoModel();
 
-		});
-	});
+		var user = new UserModel();
+		user.setName('foo');
+		user.setPassword('fooSecret');
 
-	/*
-		test DeleteUser:
-	*/
-	test('userDao deleteUser test', function(){		
-		//Connect to database:
-		before(function(done){
-			if (mongoose.connection.db) return done();
-			mongoose.connect(properties.databaseURI, done);
-		});			
-	
-		var userDao = new userDAO.userDao();
-		var user    = new userModel.user();
-			user.setName('foo');
-			user.setPassword('secretFoo');
-
-		userDao.searchByName(user.name, function(user){	
-			if(user === null)	userDao.createUser(user, function(status){
-									userDao.deleteUser(user, function(status){
-										userDAO.searchByName(user, function(status){
-											assert.equal(status, null, 'user must not exists');
-										});
-									})									
-								});
-			else userDao.deleteUser(user, function(status){
-						userDao.searchByName(user.name, function(status){
-							assert.equal(status, null, 'user must not exists');									
-						});									
-				});
-		});
+		var testId = user.getId();
 			
-		//Disconnect to database:
-		after(function(){
-			mongoose.connection.close(function(){
-+  				done();
-			})
-
+		userDao.create(user, function(user){
+			userDao.findById(user.getId(), function(userFound){
+				assert.equal(userFound.getId().toString(), testId ,'It must have a value');
+				done();
+			});
 		});
 	});
 
-	/*
-		test searchByName:
-	*/
-	test('userDao searchByName test', function(){		
-		//Connect to database:
-		before(function(done){
-			if (mongoose.connection.db) return done();
-			mongoose.connect(properties.databaseURI, done);
-		});			
-	
-		var userDao = new userDAO.userDao();
-		var user    = new userModel.user();
-			user.setName('foo');
-			user.setPassword('secretFoo');
+	//test delete from UserDAO:
+	test('delete user test', function(done){	
 
-		userDao.searchByName(user.name, function(user){	
-			if(user === null)	userDao.createUser(user, function(status){
-										userDAO.searchByName(user, function(userFind){
-											assert.equal(userFind.getName(), user.getName(), 'user must have this name');
-											assert.equal(userFind.getPassword(), user.getName(), 'user must have the name foo');
-										});									
-								});
-			else userDao.deleteUser(user, function(status){
-					userDao.createUser(user, function(status){
-						userDao.searchByName(user.name, function(userFind){
-							assert.equal(userFind.getName(), user.getName(), 'user must have the name foo');				
-							assert.equal(userFind.getPassword(), user.getName(), 'user must have the name foo');								
-						});									
-					});
+		var userDao = new UserDaoModel();
+
+		var user = new UserModel();
+		user.setName('foo');
+		user.setPassword('fooSecret');
+
+		user.save(function(err, user){
+			userDao.delete(user, function(info){
+				userDao.findById(user.getId(), function(userFound){
+					assert.isNull(userFound, 'It should be null');
+					done();
 				});
-		});	
+			});
+		});
+	});
+
+	//test update from userDAO:
+	test('update user test', function(done){	
+
+		var userDao = new UserDaoModel();
+
+		var user = new UserModel();
+		user.setName('foo');	
+		user.setPassword('fooSecret');	
+			
+		user.save(function(err, user){
+			userDao.findById(user.getId(), function(userFound){
+				userFound.setName('fdsa');
+				userDao.update(userFound, function(updatedUser){
+					userDao.findById(user.getId(), function(userFound){
+						assert.equal(user.getName(), userFound.getName(), 'two id Must be the same');
+						done();
+					});	
+				});				
+			});		
+		});
+	});
+
+	//test findByName from userDAO:
+	test('findByName userDao test', function(done){	
+
+		var userDao = new UserDaoModel();
+
+		var user = new UserModel();
+		user.setName('fooSearchByName');	
+		user.setPassword('fooSecret');	
 		
-			
-		//Disconnect to database:
-		after(function(){
-			mongoose.connection.close(function(){
-+  				done();
-			})
 
+		user.save(function(err, user){
+			userDao.findByName(user.getName(), function(userFound){
+				assert.equal(user.getId().toString(), userFound.getId().toString(), 'two id Must be the same');
+				userDao.delete(userFound);
+				done();
+			});		
 		});
 	});
+
+
+	//test findAll from userDao:
+	test('findAll userDao test', function(done){	
+		var userDao = new UserDaoModel();
+
+		userDao.findAll(function(values){
+			UserModel.count({}, function(err,count){
+			assert.equal(values.length, count, 'count must be the same than resultsLength');
+				done();
+			});
+		});
+	});
+
+	/////TODOOO///
+	/*
+		ValidateUser
+	*/
+
 });	
