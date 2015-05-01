@@ -12,8 +12,8 @@ var mongoose  = require('mongoose');					//Import mongoose library {http://mongo
 		-Password: It´s saved as a sha256 format.
 */	
 var userSchema  = new mongoose.Schema({
-    name     : String,
-   	password : String,
+    name     : { type: String, required: true, unique: true },
+   	password : { type: String, required: true},
     
 });
 exports.userSchema = userSchema;
@@ -25,7 +25,7 @@ exports.userSchema = userSchema;
 		-token : it´screated by: username + userpassword + timestamp
 */	
 var sigmaSchema = new mongoose.Schema({
-	name : String,
-    token : String
+	name  : { type: String, required: true, unique: true },
+    token : { type: String, required: true},
 });
 exports.sigmaSchema = sigmaSchema;
