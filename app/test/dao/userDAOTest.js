@@ -9,6 +9,17 @@ var mongoose   = require('mongoose');		//Import mongoose library {http://mongoos
 var before     = require('mocha').before; 	//before to implement actions before test execution. 
 var after      = require('mocha').after;    //after to implement actions after test execution. 
 
+
+/*
+	Generate a random 10 characters string to fill test values
+*/	
+function randmonString(){
+    var text = ""
+      ,	possible = "abcdefghijklmnopqrstuvwxyz";
+    for( var i=0; i < 10; i++ ) text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+}
+
 //All model tests instanciated under this suite:
 suite('userDAO test', function(){
 
@@ -28,8 +39,7 @@ suite('userDAO test', function(){
 			assert.property(userDao, 'update', 'object must have updateUser property');
 			assert.property(userDao, 'delete', 'object must have deleteUser property');
 			assert.property(userDao, 'findByName', 'object must have searchByName property');
-			assert.property(userDao, 'findById', 'object must have searchUserById property');
-			assert.property(userDao, 'validateUser', 'object must have validateUser property');			
+			assert.property(userDao, 'findById', 'object must have searchUserById property');			
 	});
 
 
@@ -39,8 +49,8 @@ suite('userDAO test', function(){
 		var userDao = new UserDaoModel();
 
 		var user = new UserModel();
-		user.setName('foo');
-		user.setPassword('fooSecret');
+		user.setName(randmonString());
+		user.setPassword(randmonString());
 
 		var testId = user.getId();
 			
@@ -58,8 +68,8 @@ suite('userDAO test', function(){
 		var userDao = new UserDaoModel();
 
 		var user = new UserModel();
-		user.setName('foo');
-		user.setPassword('fooSecret');
+		user.setName(randmonString());
+		user.setPassword(randmonString());
 
 		user.save(function(err, user){
 			userDao.delete(user, function(info){
@@ -77,8 +87,8 @@ suite('userDAO test', function(){
 		var userDao = new UserDaoModel();
 
 		var user = new UserModel();
-		user.setName('foo');	
-		user.setPassword('fooSecret');	
+		user.setName(randmonString());	
+		user.setPassword(randmonString());	
 			
 		user.save(function(err, user){
 			userDao.findById(user.getId(), function(userFound){
@@ -99,8 +109,8 @@ suite('userDAO test', function(){
 		var userDao = new UserDaoModel();
 
 		var user = new UserModel();
-		user.setName('fooSearchByName');	
-		user.setPassword('fooSecret');	
+		user.setName(randmonString());	
+		user.setPassword(randmonString());	
 		
 
 		user.save(function(err, user){
@@ -124,10 +134,4 @@ suite('userDAO test', function(){
 			});
 		});
 	});
-
-	/////TODOOO///
-	/*
-		ValidateUser
-	*/
-
 });	

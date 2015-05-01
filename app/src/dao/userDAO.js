@@ -1,8 +1,7 @@
 var properties = require('properties').properties;				   //Import properties file
 var UserModel  = require(properties.path + 'app/src/models/user').User;	
 var bucket  = require(properties.path + 'app/db/dbSchema');	       //Import User model.
-var crypto  = require('crypto');								   //Import libraries to crypt all the data /* https://nodejs.org/api/crypto.html */	
-
+	
 
 /*
 	UserDao prototype 
@@ -14,7 +13,7 @@ function UserDao(){
     */	
 	this.create = function(user, callback){
     	user.save(function(err, user){
-      		if(err) callback({err: 'unnable to add the user'});
+      		if(err) callback(err);
       		else    callback(user);
     	});
   	}; 
@@ -24,8 +23,8 @@ function UserDao(){
     */	
     this.delete = function(user, callback){
         user.remove(function(err, user){
-	        if(err) callback({err: 'unnable to delete the user'});
-	        else callback(0);
+	        if(err) callback(err);
+	        else callback(0);    //<< esto huele muy mal || CAMBIARLO>>
 	    });
 	};
 
@@ -35,8 +34,8 @@ function UserDao(){
     */
     this.update = function(user, callback){
     	user.update(function(err, user){
-        	if(err) callback({err: 'unnable to update the user'});
-        	else callback(0);
+        	if(err) callback(err);
+        	else callback(0);   //<< esto huele muy mal || CAMBIARLO>>
     	});
     };
 
@@ -80,22 +79,3 @@ function UserDao(){
   };
 }	
 exports.UserDao = UserDao;
-
-
-/////TODO//////////////
-/*
-	Function to validate an user.
-*/	 
-function validateUser(name, pass, callback){
-	passw = crypto.createHash('sha256').update(pass).digest();
-	model.user.findOne({ 'name':  name }, 'name password', function (err, user){
-		if (err){
-			return callback(undefined);
-		}
-		else{
-			if (user.password === passw.toString()) return callback(true);
-			else return callback(false);
-		}
-	});
-}
-exports.validateUser = validateUser;

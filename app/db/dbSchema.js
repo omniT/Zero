@@ -13,7 +13,7 @@ var mongoose  = require('mongoose');					//Import mongoose library {http://mongo
 */	
 var userSchema  = new mongoose.Schema({
     name     : { type: String, required: true, unique: true },
-   	password : { type: String, required: true},
+   	password : { type: String, required: true,},
     
 });
 exports.userSchema = userSchema;
