@@ -27,5 +27,8 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
-#Secret key file
+# Secret key file
 .token_genkey.key
+
+# Mocha results file
+results.txt

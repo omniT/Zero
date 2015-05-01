@@ -20,10 +20,5 @@ module.exports.properties  = {
 		error : '/var/log/zero/error.log',
 	}
 	//Key to generate tokens
-	//TO-DO: 
-		/*	
-			Grunt task to create this file path
-			Grunt task to generate the token
-		*/	
-	//tokenKeyFile : '.token_genkey.key'
+	tokenKeyFile : '.token_genkey.key'
 };
