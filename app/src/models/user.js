@@ -8,6 +8,8 @@ var dbSchema    = require(properties.path + 'app/db/dbSchema')
 
 var User = mongoose.model('user', dbSchema.userSchema);
 
+
+	/*
 	User.prototype.setName = function(userName){
 		this.name = userName;
 	};	      
@@ -27,5 +29,5 @@ var User = mongoose.model('user', dbSchema.userSchema);
 	User.prototype.getPassword = function(){
 		return this.password;
 	}
-
+	*/
 exports.User = User;

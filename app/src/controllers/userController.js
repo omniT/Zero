@@ -45,8 +45,13 @@ function UserController(){
 			if(user === null)callback({status: 404, data: 'user not exist'});
 			if(user.password === passwd) callback({status: 200, data: user});
 			else if(user.password !== passwd)callback({status: 401, data: 'user password dont coincide'});
-			else logger.log('error', " UserController: Could not validate user:" + user);				
+			else{
+				logger.log('error', " UserController: Could not validate user:" + user);
+				callback(status: 500, data: user);
+			} 				
 		});
 	};
 }	
 exports.UserController = UserController;
+
+
