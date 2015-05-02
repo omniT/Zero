@@ -18,7 +18,7 @@ module.exports.properties  = {
 		info : '/var/log/zero/info.log',
 		warn : '/var/log/zero/warning.log',
 		error : '/var/log/zero/error.log',
-	}
+	},
 	//Key to generate tokens
 	tokenKeyFile : '.token_genkey.key'
 };
