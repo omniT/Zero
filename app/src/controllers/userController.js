@@ -47,7 +47,7 @@ function UserController(){
 			else if(user.password !== passwd)callback({status: 401, data: 'user password dont coincide'});
 			else{
 				logger.log('error', " UserController: Could not validate user:" + user);
-				callback(status: 500, data: user);
+				callback({status: 500, data: user});
 			} 				
 		});
 	};
