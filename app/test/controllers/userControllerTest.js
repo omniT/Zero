@@ -2,7 +2,7 @@
 	Script to test userController.js values.
 */	
 var properties          = require('properties').properties;
-var UseControllerModel  = require(properties.path + 'app/src/controllers/userController').UserController;
+var UserControllerModel  = require(properties.path + 'app/src/controllers/userController').UserController;
 var UserModel  = require(properties.path + 'app/src/models/user').User; 
 var assert     = require('chai').assert;	//library to assert
 var mongoose   = require('mongoose');		//Import mongoose library {http://mongoosejs.com}
@@ -28,14 +28,60 @@ suite('userController test', function(){
     		mongoose.connect(properties.databaseURI, done);
   		});
 
+		var userController = new UserControllerModel();
 
 	//test createUser from userController:
 	test('create user test', function(done){
-		assert.equal(true, false,'TODO');
+		var user = new UserModel();
+		user.setName(randmonString());
+		user.setPassword(randmonString());
+
+		//Create one user:
+		userController.createUser(user, function(data){
+
+			var userTry = new UserModel();
+			userTry.setName(user.getName());
+			userTry.setPassword(user.getPassword())
+			//If the user exist no more users  with the same name can be created:
+			userController.createUser(userTry,function(dataTry){
+				assert.equal(dataTry.status , 409 ,'The user cant be created');
+				done();
+			});
+		});	
+	});	
+
+	//test createUser from userController:
+	test('find By name user test', function(done){
+		var user = new UserModel();
+		user.setName(randmonString());
+		user.setPassword(randmonString());		
+		//Create one user:
+		userController.createUser(user, function(data){
+			var userName = user.getName();
+			userController.findUserByName(userName, function(dataFound){
+				assert.equal(dataFound.status , 201 ,'User must be found');
+				userController.findUserByName(randmonString(), function(secondDataFound){
+					assert.equal(secondDataFound.status , 204 ,'User must be found');
+					done();
+				});
+			});
+		});		
 	});	
 
 		//test createUser from userController:
 	test('validate user test', function(done){
-		assert.equal(true, false,'TODO');				
+		var user = new UserModel();
+		user.setName(randmonString());
+		user.setPassword(randmonString());
+		var userPassword = user.getPassword();
+		userController.createUser(user, function(data){
+			userController.validateUser(user.getName(), userPassword, function(dataFound){
+				assert.equal(dataFound.status , 200 ,'User must be dataFound');
+				userController.validateUser(user.getName(), randmonString(), function(secondDataFound){
+					assert.equal(secondDataFound.status , 401 ,'User musnt be validated');
+					done();
+				});
+			});
+		});
 	});	
 });	

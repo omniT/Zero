@@ -10,13 +10,13 @@ function UserDao(){
 
 	/*
   		Create new user  
-    */	
+  */	
 	this.create = function(user, callback){
     	user.save(function(err, user){
       		if(err) callback(err);
       		else    callback(user);
     	});
-  	}; 
+  }; 
 
 	/*
   		Delete existing user  
