@@ -68,7 +68,7 @@ suite('userController test', function(){
 		});		
 	});	
 
-		//test createUser from userController:
+	//test createUser from userController:
 	test('validate user test', function(done){
 		var user = new UserModel();
 		user.setName(randmonString());
@@ -83,5 +83,15 @@ suite('userController test', function(){
 				});
 			});
 		});
+	});
+
+	//test createUser from userController:
+	test('(TODO)find by id  user test', function(done){
+		assert.equal(true, false, 'TODO');
+	});
+
+	//test createUser from userController:
+	test('(TODO)create sesion  user test', function(done){
+		assert.equal(true, false, 'TODO');
 	});	
 });	

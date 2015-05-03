@@ -51,6 +51,18 @@ function UserController(){
 			} 				
 		});
 	};
+
+	/*
+		Function to create user
+	*/	
+	this.createSesion = function(user, callback){
+		var payload = {
+			sub: user.getId(),
+			iat: moment.unix(),
+			exp: moment.add(10, "days").unix(),
+		};
+		callback(jwt.encode(payload, properties.tokenUserKeyFile));	
+	};
 }	
 exports.UserController = UserController;
 

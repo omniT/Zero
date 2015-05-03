@@ -29,6 +29,7 @@ node_modules
 
 # Secret key file
 .token_genkey.key
+.userToken_genkey.key
 
 # Mocha results file
 results.txt
