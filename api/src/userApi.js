@@ -7,7 +7,7 @@
 module.exports = function(rest){
 
 	//Create new Opportunity
-	rest.post('/opportunity', function(req, content, callback){
+	rest.post('/user', function(req, content, callback){
 		
 		var opportunity = new OpportunityModel();
 		opportunity.setTitle(req.body.title);

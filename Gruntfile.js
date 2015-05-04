@@ -57,7 +57,7 @@ module.exports = function(grunt) {
 
 	//Task to create the encryption key for user tokens:
 	grunt.registerTask('genUserKey', '*Build Task*. Generate and store the key to encrypt tokens.', function(){
-		var key = crypto.randomBytes(24).toString('base64');
+		var key = crypto.randomBytes(256).toString('base64');
 		fs.writeFileSync('.userToken_genkey.key', key);
 	});
 

@@ -1,12 +1,15 @@
 var properties = require('properties').properties;							//Import properties file
 var logger     = require(properties.path + 'utils/logger/logger').logger;	//Import logging library 
-
-var crypto     = require('crypto')	 //Import libraries to crypt all the data /* https://nodejs.org/api/crypto.html */	 	
+var fs         = require('fs');
+var jwt        = require('jwt-simple');	//Library to create userSession token since a payload
+var moment 	   = require('moment');		//Library to help us with dates in the token creation 	
+var crypto     = require('crypto')	 	//Import libraries to crypt all the data /* https://nodejs.org/api/crypto.html */	 	
 var UserModel  = require(properties.path + 'app/src/models/user').User; 
 var UserDaoModel    = require(properties.path + 'app/src/dao/userDAO').UserDao	
-
+ 			
 /*
 	UserController prototype
+	Callbacks status code based on http status codes http://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
 */
 function UserController(){
 
@@ -14,8 +17,6 @@ function UserController(){
 
 	/*	
 		Create new user, test userName exists
-
-		Callbacks status code based on http status codes http://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
 	*/	
 	this.createUser = function(user, callback){
 		//Encript the password:
@@ -36,6 +37,8 @@ function UserController(){
 		});
 	}
 
+
+
 	/*
 		Function to validate an user.
 	*/	 
@@ -52,16 +55,36 @@ function UserController(){
 		});
 	};
 
+	/*	
+		Find  user since the id
+	*/	
+	this.findUserById = function(userId, callback){
+		userDao.findById(userId, function(data){
+			if(data === null)callback({status: 204, data: 'user not exist'})
+			else if(data instanceof UserModel) callback({status : 200, data : data}); //If user has been found  return correct value 201 and the user.	
+			else{
+				logger.log('error', " UserController: Could not find User by id:" + data);
+				callback({status: 500, data: data});
+			} 	
+		});
+	};
+
 	/*
-		Function to create user
+		Function to create user session
 	*/	
 	this.createSesion = function(user, callback){
+		try{
+			var key = fs.readFileSync(properties.tokenUserKeyFile).toString();
+		}	
+		catch(err){
+			logger.log('error', " UserController: Could not red userToken Signature file" + err);
+		}
 		var payload = {
 			sub: user.getId(),
-			iat: moment.unix(),
-			exp: moment.add(10, "days").unix(),
+			iat: moment().unix(),
+			exp: moment().add(10, 'days').unix(),
 		};
-		callback(jwt.encode(payload, properties.tokenUserKeyFile));	
+		callback(jwt.encode(payload, key));  //Default encode 'sha256'.	
 	};
 }	
 exports.UserController = UserController;

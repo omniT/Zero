@@ -8,6 +8,7 @@ var assert     = require('chai').assert;	//library to assert
 var mongoose   = require('mongoose');		//Import mongoose library {http://mongoosejs.com}
 var before     = require('mocha').before; 	//before to implement actions before test execution. 
 var after      = require('mocha').after;    //after to implement actions after test execution. 
+var jwt        = require('jwt-simple');	//Library to create userSession token since a payload
 
 /*
 	Generate a random 10 characters string to fill test values
@@ -23,12 +24,12 @@ function randmonString(){
 suite('userController test', function(){
 
 	//Connect to database if other connection does't exist:
-		before(function(done) {
-        	if (mongoose.connection.db) return done();
-    		mongoose.connect(properties.databaseURI, done);
-  		});
+	before(function(done) {
+    	if (mongoose.connection.db) return done();
+		mongoose.connect(properties.databaseURI, done);
+	});
 
-		var userController = new UserControllerModel();
+	var userController = new UserControllerModel();
 
 	//test createUser from userController:
 	test('create user test', function(done){
@@ -85,13 +86,45 @@ suite('userController test', function(){
 		});
 	});
 
-	//test createUser from userController:
-	test('(TODO)find by id  user test', function(done){
-		assert.equal(true, false, 'TODO');
-	});
-
-	//test createUser from userController:
-	test('(TODO)create sesion  user test', function(done){
-		assert.equal(true, false, 'TODO');
+	//test Find user by id from userController:
+	test('find by id user test', function(done){
+		var user = new UserModel();
+		user.setName(randmonString());
+		user.setPassword(randmonString());		
+		//Create one user:
+		userController.createUser(user, function(findData){
+			var userId = findData.data.getId();
+			userController.findUserById(userId, function(dataFound){
+				assert.equal(dataFound.status , 200 ,'user must be found');
+				userController.findUserById(new UserModel().getId(), function(secondDataFound){
+					assert.equal(secondDataFound.status , 204 ,'user must be found');
+					done();
+				});
+			});
+		});		
 	});	
+
+	
+	//test createSesionUser from userController:
+	test('(TODO)create sesion  user test', function(done){
+		var user = new UserModel();
+		user.setName(randmonString());
+		user.setPassword(randmonString());
+		var userPassword = user.getPassword();
+		userController.createUser(user, function(findData){			
+			userController.validateUser(user.getName(), userPassword, function(dataFound){			
+				userController.createSesion(dataFound.data, function(userSesionToken){
+					console.log(userSesionToken);
+					//console.log(findData.getId());
+					/*
+					var token = userSesionToken.split(".");
+					console.log(token)
+					var payload = jwt.decode(token, properties.tokenUserKeyFile);
+					
+					console.log(payload);
+					*/
+				});		
+			});
+		});
+	});			
 });	

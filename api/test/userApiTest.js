@@ -12,7 +12,7 @@ var UserModel    = require(properties.path + 'app/src/models/user').User;	//Impo
 var before     = require('mocha').before; 	//before to implement actions before test execution. 
 
 //All opportunity api tests
-suite('(TODO)oportunities api tests', function(){
+suite('(TODO)user api tests', function(){
 		
 	//Declarations:
 	var userDao = new UserDaoModel();
